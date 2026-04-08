@@ -53,7 +53,8 @@ sub startup ($self) {
             $c->render(data => $content, format => 'bin');
         }
         else {
-            $c->render(json => { error => $error // "Not found" }, status => 404);
+            my $status = _error_status($error);
+            $c->render(json => { error => $error // "Not found" }, status => $status);
         }
     });
 
@@ -206,6 +207,14 @@ sub _get_backend ($self) {
     }
 
     return $backend;
+}
+
+# Map backend error strings to HTTP status codes
+sub _error_status {
+    my $error = shift // '';
+    return 404 if $error =~ /does not exist|[Nn]ot found/;
+    return 400 if $error =~ /[Ii]nvalid/;
+    return 500;
 }
 
 # Allow resetting backend (used by tests)
