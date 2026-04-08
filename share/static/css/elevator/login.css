@@ -42,3 +42,12 @@
 #login-box .titlebox-title .left {
     padding-left: 0em
 }
+
+#login-box .btn-primary {
+    width: 100%;
+    padding: 0.6rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 8px;
+}

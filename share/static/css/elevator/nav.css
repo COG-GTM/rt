@@ -305,7 +305,8 @@
     }
 
     #topactions form input.btn {
-        border-color: #4868b3;
+        border-color: #3b6ccf;
+        border-radius: 5px;
     }
 }
 

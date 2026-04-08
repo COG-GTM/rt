@@ -267,6 +267,52 @@ form .value>.list-group {
 
 .btn {
     font-weight: 500;
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+    .btn:hover {
+        transform: none;
+    }
+}
+
+.btn-sm {
+    border-radius: 5px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.8125rem;
+}
+
+.btn-close {
+    border-radius: 50%;
+    box-shadow: none;
+}
+
+.btn-close:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 /* remove unnecessary left padding for radio options */
@@ -441,6 +487,39 @@ div.row>div.label>span.prev-icon-helper+.icon-helper {
 
 [data-bs-theme=light] {
 
+    .btn-primary {
+        --bs-btn-bg: #3b6ccf;
+        --bs-btn-border-color: #3b6ccf;
+        --bs-btn-hover-bg: #2f5ab8;
+        --bs-btn-hover-border-color: #2a50a5;
+        --bs-btn-active-bg: #264999;
+        --bs-btn-active-border-color: #264999;
+        --bs-btn-color: #fff;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-active-color: #fff;
+        background-image: linear-gradient(180deg, #4a7ae0 0%, #3b6ccf 100%);
+    }
+
+    .btn-primary:hover {
+        background-image: linear-gradient(180deg, #3d6bd4 0%, #2f5ab8 100%);
+    }
+
+    .btn-primary:active {
+        background-image: none;
+    }
+
+    .btn-light {
+        --bs-btn-bg: #f0f2f5;
+        --bs-btn-border-color: #d1d5db;
+        --bs-btn-hover-bg: #e5e7eb;
+        --bs-btn-hover-border-color: #bfc4cc;
+        --bs-btn-active-bg: #d8dbe1;
+        --bs-btn-active-border-color: #b0b5bf;
+        --bs-btn-color: #374151;
+        --bs-btn-hover-color: #1f2937;
+        --bs-btn-active-color: #1f2937;
+    }
+
     div.error div.error {
         border-color: #aa0000;
         border-top-color: #bb0000;
@@ -535,22 +614,30 @@ div.row>div.label>span.prev-icon-helper+.icon-helper {
 
 [data-bs-theme=dark] {
 
-    /* Bootstrap 5 doesn't support to customize button colors via scss */
-    .btn-primary,
+    /* Modern dark-mode button styling */
+    .btn-primary {
+        --bs-btn-color: #e8eaed;
+        --bs-btn-active-color: #e8eaed;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-bg: #3b6ccf;
+        --bs-btn-border-color: #4a7ae0;
+        --bs-btn-hover-bg: #4a7ae0;
+        --bs-btn-hover-border-color: #5a88e8;
+        --bs-btn-active-bg: #2f5ab8;
+        --bs-btn-active-border-color: #3b6ccf;
+        background-image: none;
+    }
+
     .btn-light {
         --bs-btn-color: var(--bs-body-color);
         --bs-btn-active-color: var(--bs-body-color);
         --bs-btn-hover-color: var(--bs-body-color);
-        --bs-btn-bg: #323d42;
-        --bs-btn-border-color: #717171;
-        --bs-btn-hover-bg: #323d42;
-        --bs-btn-active-border-color: #717171;
-        --bs-btn-hover-border-color: #717171;
-    }
-
-    .btn-light {
-        background-color: #323D42 !important;
-        border-color: #717171 !important;
+        --bs-btn-bg: #3a474d;
+        --bs-btn-border-color: #5a6570;
+        --bs-btn-hover-bg: #45535a;
+        --bs-btn-hover-border-color: #6a7680;
+        --bs-btn-active-bg: #323d42;
+        --bs-btn-active-border-color: #5a6570;
     }
 
     ::-webkit-input-placeholder {
