@@ -1765,6 +1765,9 @@ our %META;
     ExternalStorageDirectLink => {
         Widget => '/Widgets/Form/Boolean',
     },
+    ExternalStorageURL => {
+        Widget => '/Widgets/Form/String',
+    },
     ForceApprovalsView => {
         Widget => '/Widgets/Form/Boolean',
     },

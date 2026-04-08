@@ -5333,6 +5333,22 @@ Set this to 1 to link directly to files in external storage.
 
 Set($ExternalStorageDirectLink, 0);
 
+=item C<$ExternalStorageURL>
+
+As an alternative to configuring C<%ExternalStorage> for in-process storage,
+you can point RT at a standalone External Storage HTTP service by setting
+C<$ExternalStorageURL>. When set, RT uses L<RT::ExternalStorage::Client> to
+communicate with the service and the C<%ExternalStorage> hash is ignored.
+
+    Set($ExternalStorageURL, 'http://localhost:8080');
+
+When C<$ExternalStorageURL> is not set, the traditional in-process backend
+configured via C<%ExternalStorage> is used.
+
+=cut
+
+Set($ExternalStorageURL, undef);
+
 =back
 
 
