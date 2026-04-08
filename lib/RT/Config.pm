@@ -1426,7 +1426,11 @@ our %META;
             if ($service_url) {
                 require RT::ExternalStorage::Client;
                 my $client = RT::ExternalStorage::Client->new(ServiceURL => $service_url);
-                RT->System->ExternalStorage($client);
+                if ($client) {
+                    RT->System->ExternalStorage($client);
+                } else {
+                    RT->Logger->error("ExternalStorageURL is configured but the client failed to initialize; external storage is unavailable.");
+                }
             } else {
                 my %hash = $self->Get('ExternalStorage');
                 return unless keys %hash;
