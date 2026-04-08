@@ -57,7 +57,7 @@ sub Get {
 
     return (undef, "File does not exist") unless -e $path;
 
-    open(my $fh, "<", $path) or return (undef, "Cannot read file on disk: $!");
+    open(my $fh, "<:raw", $path) or return (undef, "Cannot read file on disk: $!");
     my $content = do { local $/; <$fh> };
     $content = "" unless defined $content;
     close $fh;
