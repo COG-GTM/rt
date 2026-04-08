@@ -3,6 +3,7 @@ use strict;
 
 package ExternalStorage::App;
 
+use FindBin;
 use Mojo::Base 'Mojolicious', -signatures;
 use Digest::SHA qw(sha256_hex);
 use JSON::PP;
