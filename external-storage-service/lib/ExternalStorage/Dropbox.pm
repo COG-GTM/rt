@@ -80,7 +80,7 @@ sub Get {
     open my $fh, '>', \$content;
     $self->DropboxClient->download($path, $fh);
     close $fh;
-    if ($content) {
+    if (defined $content && length $content) {
         return ($content);
     }
     else {

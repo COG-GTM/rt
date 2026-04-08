@@ -42,7 +42,9 @@ sub _FilePath {
     my $sha  = shift;
 
     # fan out to avoid one gigantic directory which slows down all file access
-    $sha =~ m{^(...)(...)(.*)};
+    unless ($sha =~ m{^(...)(...)(.*)}) {
+        return undef;
+    }
     return $self->Path . "/$1/$2/$3";
 }
 
@@ -51,6 +53,7 @@ sub Get {
     my ($sha) = @_;
 
     my $path = $self->_FilePath($sha);
+    return (undef, "Invalid SHA value") unless defined $path;
 
     return (undef, "File does not exist") unless -e $path;
 
@@ -66,6 +69,7 @@ sub Store {
     my $self = shift;
     my ($sha, $content, $content_type) = @_;
     my $path = $self->_FilePath($sha);
+    return (undef, "Invalid SHA value") unless defined $path;
 
     return ($sha) if -f $path;
 
@@ -87,6 +91,7 @@ sub Delete {
     my $self = shift;
     my $sha  = shift;
     my $path = $self->_FilePath($sha);
+    return (undef, "Invalid SHA value") unless defined $path;
 
     if (-f $path) {
         unlink $path or return (undef, "Cannot delete file: $!");
