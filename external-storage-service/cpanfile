@@ -1,0 +1,22 @@
+# Core dependencies
+requires 'Mojolicious', '>= 9.0';
+requires 'Role::Basic';
+requires 'Digest::SHA';
+requires 'JSON::PP';
+requires 'YAML::Tiny';
+requires 'File::Path';
+
+# Backend-specific dependencies (install as needed)
+
+# For AmazonS3 backend:
+# requires 'Amazon::S3';
+
+# For Dropbox backend:
+# requires 'WebService::Dropbox';
+
+# Test dependencies
+on 'test' => sub {
+    requires 'Test::More';
+    requires 'Test::Mojo';
+    requires 'File::Temp';
+};
