@@ -212,8 +212,6 @@ table.upgrade-history .upgrade-history-parent .widget a.rolled-up {
     }
 
     div.user-related-info a.btn.btn-primary {
-        background: #323D42 !important;
-        border-color: #717171;
         margin-bottom: 1px;
     }
 }
