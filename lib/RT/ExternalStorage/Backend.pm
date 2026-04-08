@@ -46,6 +46,10 @@
 #
 # END BPS TAGGED BLOCK }}}
 
+# DEPRECATED: This backend is deprecated in favor of the standalone External Storage service.
+# Configure $ExternalStorageURL to use the new HTTP client instead.
+# This file is kept for backward compatibility and rollback safety.
+
 use warnings;
 use strict;
 

@@ -1422,13 +1422,24 @@ our %META;
         Type            => 'HASH',
         PostLoadCheck   => sub {
             my $self = shift;
-            my %hash = $self->Get('ExternalStorage');
-            return unless keys %hash;
+            my $service_url = $self->Get('ExternalStorageURL');
+            if ($service_url) {
+                require RT::ExternalStorage::Client;
+                my $client = RT::ExternalStorage::Client->new(ServiceURL => $service_url);
+                if ($client) {
+                    RT->System->ExternalStorage($client);
+                } else {
+                    RT->Logger->error("ExternalStorageURL is configured but the client failed to initialize; external storage is unavailable.");
+                }
+            } else {
+                my %hash = $self->Get('ExternalStorage');
+                return unless keys %hash;
 
-            require RT::ExternalStorage;
+                require RT::ExternalStorage;
 
-            my $backend = RT::ExternalStorage::Backend->new(%hash);
-            RT->System->ExternalStorage($backend);
+                my $backend = RT::ExternalStorage::Backend->new(%hash);
+                RT->System->ExternalStorage($backend);
+            }
         },
     },
     LogoImageHeight => {
@@ -1748,6 +1759,10 @@ our %META;
     },
     ExternalStorageDirectLink => {
         Widget => '/Widgets/Form/Boolean',
+    },
+    ExternalStorageURL => {
+        Type    => 'SCALAR',
+        Widget  => '/Widgets/Form/String',
     },
     ForceApprovalsView => {
         Widget => '/Widgets/Form/Boolean',
