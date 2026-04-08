@@ -61,11 +61,8 @@ sub Init {
     my $S3 = Amazon::S3->new(\%args);
     $self->S3($S3);
 
-    my $buckets = $S3->bucket($self->Bucket);
-    unless ($buckets) {
-        warn "Can't list buckets of AmazonS3: " . $S3->errstr . "\n";
-        return;
-    }
+    # Note: bucket existence is validated lazily on first Store/Get/Delete
+    # operation. $S3->bucket() only creates a local handle without an API call.
 
     return $self;
 }
@@ -102,6 +99,12 @@ sub DownloadURLFor {
     my $self   = shift;
     my $digest = shift;
 
+    if ($self->{Host}) {
+        return "https://" . $self->{Host} . "/" . $self->Bucket . "/" . $digest;
+    }
+    elsif ($self->{Region}) {
+        return "https://" . $self->Bucket . ".s3." . $self->{Region} . ".amazonaws.com/" . $digest;
+    }
     return "https://" . $self->Bucket . ".s3.amazonaws.com/" . $digest;
 }
 
