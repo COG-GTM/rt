@@ -275,15 +275,6 @@ form .value>.list-group {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .btn {
-        transition: none;
-    }
-    .btn:hover {
-        transform: none;
-    }
-}
-
 .btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
@@ -297,6 +288,15 @@ form .value>.list-group {
 .btn:focus-visible {
     outline: 2px solid var(--bs-primary);
     outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+    .btn:hover {
+        transform: none;
+    }
 }
 
 .btn-sm {
