@@ -123,6 +123,26 @@ when RT is less in use:
 
     0 0 * * * root /opt/rt6/sbin/rt-externalize-attachments
 
+=head1 SERVICE MODE
+
+As an alternative to in-process storage, RT can delegate external storage
+to a standalone HTTP service. This decouples the storage backends from
+the RT process.
+
+=head2 Configuration
+
+Set C<$ExternalStorageURL> in your F<RT_SiteConfig.pm> to the URL of the
+External Storage service:
+
+    Set($ExternalStorageURL, 'http://localhost:8080');
+
+When C<$ExternalStorageURL> is set, RT will use L<RT::ExternalStorage::Client>
+to communicate with the service via HTTP. The existing C<%ExternalStorage>
+hash is ignored in this mode.
+
+When C<$ExternalStorageURL> is B<not> set, RT falls back to the traditional
+in-process backend configured via C<%ExternalStorage>.
+
 =head1 CAVEATS
 
 This feature is not currently compatible with RT's C<shredder> tool;

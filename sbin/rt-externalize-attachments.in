@@ -85,6 +85,9 @@ if ($opts{'dry-run'}) {
 
 use Digest::SHA qw//;
 
+# $ExternalStorage may be either a direct backend (RT::ExternalStorage::Backend)
+# or an HTTP client (RT::ExternalStorage::Client) depending on configuration.
+# Both implement the same Store/Get/Delete interface.
 my $ExternalStorage = RT->System->ExternalStorage;
 
 die "\%ExternalStorage is not configured\n"

@@ -1422,6 +1422,22 @@ our %META;
         Type            => 'HASH',
         PostLoadCheck   => sub {
             my $self = shift;
+
+            # If $ExternalStorageURL is configured, use the HTTP client
+            # instead of a direct backend.
+            my $service_url = $self->Get('ExternalStorageURL');
+            if ($service_url) {
+                require RT::ExternalStorage;
+                require RT::ExternalStorage::Client;
+
+                my $client = RT::ExternalStorage::Client->new(
+                    Type       => 'RT::ExternalStorage::Client',
+                    ServiceURL => $service_url,
+                );
+                RT->System->ExternalStorage($client);
+                return;
+            }
+
             my %hash = $self->Get('ExternalStorage');
             return unless keys %hash;
 
@@ -1748,6 +1764,9 @@ our %META;
     },
     ExternalStorageDirectLink => {
         Widget => '/Widgets/Form/Boolean',
+    },
+    ExternalStorageURL => {
+        Widget => '/Widgets/Form/String',
     },
     ForceApprovalsView => {
         Widget => '/Widgets/Form/Boolean',
