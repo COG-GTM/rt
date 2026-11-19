@@ -69,6 +69,20 @@ sub _build_current_user {
     $_[0]->request->env->{"rt.current_user"} || RT::CurrentUser->new;
 }
 
+# Load all of the object's custom field values with one query, grouped by
+# custom field id, instead of one ValuesForObject query per custom field.
+sub _custom_field_values_by_cf {
+    my $item = shift;
+
+    my %by_cf;
+    my $ocfvs = RT::ObjectCustomFieldValues->new( $item->CurrentUser );
+    $ocfvs->LimitToObject($item);
+    while ( my $ocfv = $ocfvs->Next ) {
+        push @{ $by_cf{ $ocfv->CustomField } }, $ocfv;
+    }
+    return \%by_cf;
+}
+
 # Used in Serialize to allow additional fields to be selected ala JSON API on:
 # http://jsonapi.org/examples/
 sub expand_field {
@@ -81,6 +95,7 @@ sub expand_field {
     if ($field eq 'CustomFields') {
         if (my $cfs = custom_fields_for($item)) {
             my %values;
+            my $values_by_cf;
             while (my $cf = $cfs->Next) {
                 if (! defined $values{$cf->Id}) {
                     $values{$cf->Id} = {
@@ -90,9 +105,13 @@ sub expand_field {
                     };
                 }
 
-                my $ocfvs = $cf->ValuesForObject($item);
-                my $type  = $cf->Type;
-                while ( my $ocfv = $ocfvs->Next ) {
+                my @ocfvs;
+                if ( $cf->id && $cf->CurrentUserCanSee ) {
+                    $values_by_cf ||= _custom_field_values_by_cf($item);
+                    @ocfvs = @{ $values_by_cf->{ $cf->id } || [] };
+                }
+                my $type = $cf->Type;
+                for my $ocfv (@ocfvs) {
                     my $content = $ocfv->Content;
                     if ( $type eq 'DateTime' ) {
                         $content = format_datetime($content);
